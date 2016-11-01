@@ -33,14 +33,29 @@ function controller(opts) {
   const controls = []
 
   const registerControl = (el, key) => {
-    el.addEventListener('mousedown', () => {
-      el.style.background = 'blue'
-      sendKey('keydown', key)
-    })
-    document.addEventListener('mouseup', () => {
-      el.style.background = 'red'
-      sendKey('keyup', key)
-    })
+    let touching = false
+
+    if (!('ontouchstart' in window)) {
+      el.addEventListener('mousedown', () => {
+        el.style.background = 'blue'
+        sendKey('keydown', key)
+      })
+
+      document.addEventListener('mouseup', () => {
+        el.style.background = 'red'
+        sendKey('keyup', key)
+      })
+    } else {
+      el.addEventListener('touchstart', () => {
+        el.style.background = 'yellow'
+        sendKey('keydown', key)
+      })
+
+      document.addEventListener('touchend', () => {
+        el.style.background = 'red'
+        sendKey('keyup', key)
+      })
+    }
   }
 
   const sendKey = (evtType, keyCode) => {
