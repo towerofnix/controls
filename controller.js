@@ -57,6 +57,18 @@ function controller(opts) {
   const registerControl = (el, key) => {
     let touching = false
 
+    const release = () => {
+      console.log('Release', key)
+      el.style.background = 'red'
+      sendKey('keyup', key)
+    }
+
+    const press = () => {
+      console.log('Press', key)
+      el.style.background = 'yellow'
+      sendKey('keydown', key)
+    }
+
     if (!('ontouchstart' in window)) {
       el.addEventListener('mousedown', () => {
         el.style.background = 'blue'
@@ -68,15 +80,31 @@ function controller(opts) {
         sendKey('keyup', key)
       })
     } else {
-      el.addEventListener('touchstart', () => {
-        el.style.background = 'yellow'
-        sendKey('keydown', key)
-      })
+      // el.addEventListener('touchstart', press)
+      // el.addEventListener('touchend', release)
+      let pressed = false
 
-      el.addEventListener('touchend', () => {
-        el.style.background = 'red'
-        sendKey('keyup', key)
-      })
+      const check = evt => {
+        const under = []
+        for (let touch of Array.from(evt.touches)) {
+          under.push(document.elementFromPoint(touch.clientX, touch.clientY))
+        }
+        if (under.includes(el)) {
+          if (!pressed) {
+            pressed = true
+            press()
+          }
+        } else {
+          if (pressed) {
+            pressed = false
+            release()
+          }
+        }
+      }
+
+      document.body.addEventListener('touchmove', check)
+      document.body.addEventListener('touchend', check)
+      document.body.addEventListener('touchstart', check)
     }
   }
 
