@@ -60,7 +60,7 @@ function controller(opts) {
         sendKey('keydown', key)
       })
 
-      document.addEventListener('touchend', () => {
+      el.addEventListener('touchend', () => {
         el.style.background = 'red'
         sendKey('keyup', key)
       })
