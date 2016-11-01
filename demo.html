@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, Controls</title>
+  </head>
+  <body>
+    <div id='build-target'></div>
+
+    <ul id='display'></ul>
+
+    <script src='controller.js'></script>
+    <script>
+      controller({
+        buildTarget: document.getElementById('build-target')
+      })
+
+      const keys = {}
+
+      const ul = document.getElementById('display')
+
+      document.body.addEventListener('keydown', evt => {
+        if (evt.keyCode in keys) {
+          keys[evt.keyCode].textContent = 'Pressed'
+        } else {
+          const li = document.createElement('li')
+          li.appendChild(document.createTextNode('Key ' + evt.keyCode + ': '))
+
+          const text = document.createTextNode('Pressed')
+          li.appendChild(text)
+          keys[evt.keyCode] = text
+
+          ul.appendChild(li)
+        }
+      })
+
+      document.body.addEventListener('keyup', evt => {
+        if (evt.keyCode in keys) {
+          keys[evt.keyCode].textContent = 'Not pressed'
+        } else {
+          // whatever..
+        }
+      })
+    </script>
+  </body>
+</html>
