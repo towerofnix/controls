@@ -1,4 +1,11 @@
-const div = (parent, styleConfig, propConfig) => {
+// Not all devices have the same device pixel ratio, so this function is used
+// as a hack to make shapes appear roughly the same (or at least a GOOD)
+// physical size across various devices.
+const dpiNormalize = (n, u) => (window.devicePixelRatio * n) + (u || 'px')
+
+
+// Super quick <div style>-creating function.
+const div = (parent, styleConfig) => {
   const el = document.createElement('div')
 
   if (parent) {
@@ -6,12 +13,14 @@ const div = (parent, styleConfig, propConfig) => {
   }
 
   Object.assign(el.style, styleConfig)
-  Object.assign(el, propConfig)
 
   return el
 }
 
 
+// The main `controller` function. Takes some options:
+// * eventTarget: where to dispatch events, defaults to document.body
+// * buildTarget: where to append the controller DOM, defaults to document.body
 function controller(opts) {
   let eventTarget
   if (typeof opts.eventTarget === 'undefined') {
@@ -71,40 +80,40 @@ function controller(opts) {
 
   // Directional Pad -------------------------
   const dPadBtnStyle = {
-    width: '20px',
-    height: '20px',
+    width: dpiNormalize(20),
+    height: dpiNormalize(20),
     background: 'red',
     position: 'absolute'
   }
 
   const dPad = div(container, {
-    width: '100px',
-    height: '100px',
+    width: dpiNormalize(100),
+    height: dpiNormalize(100),
     background: 'green',
     position: 'relative'
   })
 
   const dPadLeft = div(dPad, Object.assign({}, dPadBtnStyle, {
-    left: '10px',
-    top: '40px'
+    left: dpiNormalize(10),
+    top: dpiNormalize(40)
   }))
   registerControl(dPadLeft, 37)
 
   const dPadRight = div(dPad, Object.assign({}, dPadBtnStyle, {
-    right: '10px',
-    top: '40px'
+    right: dpiNormalize(10),
+    top: dpiNormalize(40)
   }))
   registerControl(dPadRight, 39)
 
   const dPadUp = div(dPad, Object.assign({}, dPadBtnStyle, {
-    left: '40px',
-    top: '10px'
+    left: dpiNormalize(40),
+    top: dpiNormalize(10)
   }))
   registerControl(dPadUp, 38)
 
   const dPadDown = div(dPad, Object.assign({}, dPadBtnStyle, {
-    left: '40px',
-    bottom: '10px'
+    left: dpiNormalize(40),
+    bottom: dpiNormalize(10)
   }))
   registerControl(dPadDown, 40)
 }
