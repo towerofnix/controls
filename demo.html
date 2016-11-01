@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset='utf-8'>
+
     <title>Hello, Controls</title>
+
     <style>
       #build-target {
         position: fixed;
         bottom: 15px;
         left: 15px;
+        width: calc(100% - 30px);
       }
     </style>
   </head>
@@ -18,7 +22,8 @@
     <script src='controller.js'></script>
     <script>
       controller({
-        buildTarget: document.getElementById('build-target')
+        buildTarget: document.getElementById('build-target'),
+        disableZoom: true
       })
 
       const keys = {}

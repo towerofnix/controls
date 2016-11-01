@@ -9,7 +9,8 @@ const controller = /* require [TODO], or <script> */
 controller({
   eventTarget: // Where to dispatch events - defaults to document.body
   buildTarget: // Where to append the controller DOM - defaults to body again
-  // THAT IS ALL
+  disableZoom: // Disable zoom or not - defaults to false, because it's kinda
+               // a hack
 })
 ```
 
