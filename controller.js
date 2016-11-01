@@ -166,3 +166,9 @@ function controller(opts) {
     }, [spaceBar])
   ])
 }
+
+if (typeof module === 'object') {
+  module.exports = controller
+} else {
+  this.controller = controller
+}
